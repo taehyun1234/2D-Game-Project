@@ -10,7 +10,7 @@ TitleScene::TitleScene()
 	_maptool_UI->SetImage(L"..\\Resources\\images\\Title\\MapTool_UI.png");
 }
 
-void TitleScene::Init()
+void TitleScene::Init(HWND hWnd)
 {
 	_curIdx = SCENE::SCENE_TITLE;
 }

@@ -29,7 +29,7 @@ void SceneManager::Update(HWND hWnd)
 
 	if (curScene != _curSceneIdx)			// ÇöÀç ¾À°ú ¹İÈ¯µÈ ¾ÀÀÌ ´Ù¸§. ±×·¯¸é Scene Change
 	{
-		_scenes[curScene]->Init();					// ¹Ù²ğ ¾À Init
+		_scenes[curScene]->Init(hWnd);					// ¹Ù²ğ ¾À Init
 		_scenes[_curSceneIdx]->ResetScene();	// ÀüÀÇ ¾À Reset
 		_curSceneIdx = curScene;
 	}

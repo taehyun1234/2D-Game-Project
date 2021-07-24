@@ -7,17 +7,26 @@ MainScene::MainScene()
 	_curIdx = SCENE::SCENE_MAIN;
 	_boss = make_unique<Boss>();
 	_time = 0;
+	_openMap.Load(L"..\\Resources\\images\\Main\\Open.png");
+	_closeMap.Load(L"..\\Resources\\images\\Main\\Close.png");
 }
 
 MainScene::~MainScene()
 {
 }
 
-void MainScene::Init()
+void MainScene::Init(HWND hWnd)
 {
 	_curIdx = SCENE::SCENE_MAIN;
 	_time = 0;
 	_aniSpeed = 10;
+	LoadMap();
+	RECT rect;
+	GetClientRect(hWnd, &rect);
+
+	_tileSizeX = (rect.right - rect.left) / MAP_WIDTH;
+	_tileSizeY = (rect.bottom - rect.top) / MAP_HEIGHT;
+
 }
 
 SCENE MainScene::Update(HWND hWnd)
@@ -33,7 +42,61 @@ void MainScene::Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lParam)
 void MainScene::Draw(HWND hWnd, HDC hdc)
 {
 	_time += static_cast<float>(GET_SINGLE(Time)->GetDeltaTime());
+	DrawMap(hdc);
 	_boss->Draw(hdc, _time * _aniSpeed);
+}
+
+void MainScene::LoadMap()
+{
+	ifstream readFile;
+	readFile.open(L"..\\Resources\\Map\\mapFile.txt");
+
+	if (readFile.is_open())
+	{
+		int w = 0, h = 0;
+		char c;
+		while (readFile.get(c))
+		{
+			if (!(c == '0' or c == '1'))		// 공백문자
+			{
+				continue;
+			}
+
+			_mapData[w][h] = atoi(&c);
+			if (w < MAP_WIDTH - 1)
+			{
+				w++;
+			}
+			else
+			{
+				w=0;
+				h++;
+			}
+		}
+	}
+
+}
+
+void MainScene::DrawMap(HDC hdc)
+{
+	for (int i = 0; i < MAP_WIDTH; i++)
+	{
+		for (int j = 0; j < MAP_HEIGHT; j++)
+		{
+			if (_mapData[i][j] == OPEN)
+			{
+				_openMap.StretchBlt(hdc, 
+					i * _tileSizeX, j * _tileSizeY, _tileSizeX, _tileSizeY
+					, 0, 0, 57,57);
+			}
+			if (_mapData[i][j] == CLOSE)
+			{
+				_closeMap.StretchBlt(hdc,
+					i * _tileSizeX, j * _tileSizeY, _tileSizeX, _tileSizeY
+					, 0, 0, 57, 57);
+			}
+		}
+	}
 }
 
 void MainScene::ResetScene()

@@ -4,6 +4,8 @@
 #include <list>
 #include <atlimage.h>
 #include <string>
+#include <fstream>
+
 #define GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))
 #define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
 
@@ -12,6 +14,11 @@ using namespace std;
 #define GET_SINGLE(type)	type::GetInstance()
 #define WND_WIDTH				1600
 #define WND_HEIGHT			900
+#define OPEN					0
+#define CLOSE					1
+#define MAP_WIDTH			32
+#define MAP_HEIGHT			18
+
 
 #define DECLARE_SINGLE(type)		\
 private:							\

@@ -23,5 +23,5 @@ void Boss::Init(int x,int y)
 void Boss::Draw(HDC hdc, int aniCount)
 {
 	int anicount = aniCount % 7;
-	_bossImg.Draw(hdc, 0, 0, 235, 254, 235 * anicount, 0, 235, 254);
+	_bossImg.Draw(hdc, 0, 0, 100, 120, 235 * anicount, 0, 235, 254);
 }

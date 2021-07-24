@@ -7,7 +7,7 @@ class TitleScene : public Scene
 public:
 	TitleScene();
 
-	void Init();
+	void Init(HWND hWnd);
 	SCENE Update(HWND hWnd);
 	void Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lParam);
 	void Draw(HWND hWnd, HDC hdc);
