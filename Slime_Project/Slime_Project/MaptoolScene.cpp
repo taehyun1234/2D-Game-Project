@@ -21,6 +21,9 @@ void MaptoolScene::Init(HWND hWnd)
 	}
 	_writeMode = CLOSE;	
 
+	_mapData[3][3] = PLAYER;
+	_mapData[20][13] = BOSS;
+
 	RECT rect;
 	GetClientRect(hWnd, &rect);
 
@@ -79,7 +82,10 @@ void MaptoolScene::Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lPara
 				{
 					if (_mousePt.y > top && _mousePt.y < bottom)
 					{
-						_mapData[i][j] = _writeMode;
+						if(!(_mapData[i][j] == PLAYER || _mapData[i][j] == BOSS))
+						{
+							_mapData[i][j] = _writeMode;
+						}
 						break;
 					}
 				}
@@ -105,9 +111,25 @@ void MaptoolScene::Draw(HWND hWnd, HDC hdc)
 				SelectObject(hdc, oldBrush);
 				DeleteObject(hBrush);
 			}
-			else
+			else if (_mapData[i][j] == CLOSE)
 			{
 				hBrush = CreateSolidBrush(RGB(0, 0, 255));
+				oldBrush = (HBRUSH)SelectObject(hdc, hBrush);
+				Rectangle(hdc, i * _tileSizeX, j * _tileSizeY, i * _tileSizeX + _tileSizeX, j * _tileSizeY + _tileSizeY);
+				SelectObject(hdc, oldBrush);
+				DeleteObject(hBrush);
+			}
+			else if (_mapData[i][j] == PLAYER)
+			{
+				hBrush = CreateSolidBrush(RGB(0, 255, 0));
+				oldBrush = (HBRUSH)SelectObject(hdc, hBrush);
+				Rectangle(hdc, i * _tileSizeX, j * _tileSizeY, i * _tileSizeX + _tileSizeX, j * _tileSizeY + _tileSizeY);
+				SelectObject(hdc, oldBrush);
+				DeleteObject(hBrush);
+			}
+			else if (_mapData[i][j] == BOSS)
+			{
+				hBrush = CreateSolidBrush(RGB(255, 0, 0));
 				oldBrush = (HBRUSH)SelectObject(hdc, hBrush);
 				Rectangle(hdc, i * _tileSizeX, j * _tileSizeY, i * _tileSizeX + _tileSizeX, j * _tileSizeY + _tileSizeY);
 				SelectObject(hdc, oldBrush);

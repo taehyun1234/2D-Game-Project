@@ -114,6 +114,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    g_GameClient = make_unique<GameClient>();
    g_GameClient->Init(hWnd);
 
+
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
@@ -149,7 +150,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_RBUTTONDOWN:
 		g_GameClient->KeyInput(message,wParam,lParam);
 		break;
-
     case WM_DESTROY:
         PostQuitMessage(0);
         break;

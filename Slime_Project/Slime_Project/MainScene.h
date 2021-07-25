@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include "Boss.h"
+#include "Player.h"
 class MainScene :	public Scene
 {
 public:
@@ -23,6 +24,7 @@ private:
 	int										_tileSizeY;
 
 	unique_ptr<Boss>					_boss;
+	unique_ptr<Player>				_player;
 
 	CImage								_openMap;
 	CImage								_closeMap;

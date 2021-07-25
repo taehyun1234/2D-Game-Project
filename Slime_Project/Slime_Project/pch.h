@@ -6,8 +6,6 @@
 #include <string>
 #include <fstream>
 
-#define GET_X_LPARAM(lp) ((int)(short)LOWORD(lp))
-#define GET_Y_LPARAM(lp) ((int)(short)HIWORD(lp))
 
 using namespace std;
 
@@ -16,6 +14,10 @@ using namespace std;
 #define WND_HEIGHT			900
 #define OPEN					0
 #define CLOSE					1
+#define PLAYER				2
+#define BOSS					3
+
+
 #define MAP_WIDTH			32
 #define MAP_HEIGHT			18
 

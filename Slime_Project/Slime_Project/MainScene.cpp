@@ -6,6 +6,7 @@ MainScene::MainScene()
 {
 	_curIdx = SCENE::SCENE_MAIN;
 	_boss = make_unique<Boss>();
+	_player = make_unique<Player>();
 	_time = 0;
 	_openMap.Load(L"..\\Resources\\images\\Main\\Open.png");
 	_closeMap.Load(L"..\\Resources\\images\\Main\\Close.png");
@@ -27,16 +28,32 @@ void MainScene::Init(HWND hWnd)
 	_tileSizeX = (rect.right - rect.left) / MAP_WIDTH;
 	_tileSizeY = (rect.bottom - rect.top) / MAP_HEIGHT;
 
+	//20 13
+	_boss->Init(20 * _tileSizeX, 13 * _tileSizeY);
+	_player->Init(3 * _tileSizeX, 3 * _tileSizeY);
 }
 
 SCENE MainScene::Update(HWND hWnd)
 {
 	_boss->Update();
+	_player->Update(_mapData,_tileSizeX,_tileSizeY);
 	return _curIdx;
 }
 
 void MainScene::Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lParam)
 {
+	_player->Input(hWnd, keyMessage, wParam, lParam);
+
+	switch (keyMessage)
+	{
+	case WM_KEYDOWN:
+		switch (wParam)
+		{
+		case VK_ESCAPE:
+			_curIdx = SCENE::SCENE_TITLE;
+			break;
+		}
+	}
 }
 
 void MainScene::Draw(HWND hWnd, HDC hdc)
@@ -44,6 +61,7 @@ void MainScene::Draw(HWND hWnd, HDC hdc)
 	_time += static_cast<float>(GET_SINGLE(Time)->GetDeltaTime());
 	DrawMap(hdc);
 	_boss->Draw(hdc, _time * _aniSpeed);
+	_player->Draw(hdc, _time * _aniSpeed);
 }
 
 void MainScene::LoadMap()
@@ -57,7 +75,7 @@ void MainScene::LoadMap()
 		char c;
 		while (readFile.get(c))
 		{
-			if (!(c == '0' or c == '1'))		// 공백문자
+			if (!(c == '0' || c == '1' || c == '2' || c == '3'))		// 공백문자
 			{
 				continue;
 			}
@@ -83,7 +101,7 @@ void MainScene::DrawMap(HDC hdc)
 	{
 		for (int j = 0; j < MAP_HEIGHT; j++)
 		{
-			if (_mapData[i][j] == OPEN)
+			if (_mapData[i][j] == OPEN || _mapData[i][j] == BOSS || _mapData[i][j] == PLAYER)
 			{
 				_openMap.StretchBlt(hdc, 
 					i * _tileSizeX, j * _tileSizeY, _tileSizeX, _tileSizeY
