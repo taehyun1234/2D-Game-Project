@@ -8,9 +8,9 @@ SceneManager::SceneManager()
 {
 	_curSceneIdx = SCENE_TITLE;
 
-	unique_ptr<Scene> titleScene = make_unique<TitleScene>();
-	unique_ptr<Scene> mainScene = make_unique<MainScene>();
-	unique_ptr<Scene> maptoolScene = make_unique<MaptoolScene>();
+	unique_ptr<Scene> titleScene = make_unique<TitleScene>();						// memory leak
+	unique_ptr<Scene> mainScene = make_unique<MainScene>();					// memory leak
+	unique_ptr<Scene> maptoolScene = make_unique<MaptoolScene>();			// memory leak
 
 	_scenes[SCENE_TITLE] = move(titleScene);
 	_scenes[SCENE_MAIN] = move(mainScene);

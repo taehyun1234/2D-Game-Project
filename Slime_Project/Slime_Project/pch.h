@@ -5,9 +5,15 @@
 #include <atlimage.h>
 #include <string>
 #include <fstream>
-
+#include <stdlib.h>
+#include <crtdbg.h>
 
 using namespace std;
+
+#ifdef _DEBUG
+#define _CRTDBG_MAP_ALLOC
+#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#endif
 
 #define GET_SINGLE(type)	type::GetInstance()
 #define WND_WIDTH				1600
@@ -63,3 +69,17 @@ void Set##fname(ret tmp)\
 {\
 var = tmp;\
 }
+
+class Point2D
+{
+public:
+	int _x;
+	int _y;
+	int _g;
+	int _h;
+	int _f;
+	Point2D* _parentPoint;
+public:
+	Point2D(int x, int y) :_x(x), _y(y), _g(0), _h(0), _f(0), _parentPoint(nullptr) {}
+	void CalcF() { _f = _g + _h; }
+};

@@ -4,10 +4,14 @@
 TitleScene::TitleScene()
 {
 	_img_Title.Load(L"..\\Resources\\images\\Title\\타이틀화면.png");
-	_start_UI = make_unique<UI>(600, 380,400,200);
+	_start_UI = make_unique<UI>(600, 380, 400, 200);									// memory leak
 	_start_UI->SetImage(L"..\\Resources\\images\\Title\\GameStart_UI.png");
-	_maptool_UI = make_unique<UI>(600, 650, 400, 200);
+	_maptool_UI = make_unique<UI>(600, 650, 400, 200);								// memory leak
 	_maptool_UI->SetImage(L"..\\Resources\\images\\Title\\MapTool_UI.png");
+}
+
+TitleScene::~TitleScene()
+{
 }
 
 void TitleScene::Init(HWND hWnd)

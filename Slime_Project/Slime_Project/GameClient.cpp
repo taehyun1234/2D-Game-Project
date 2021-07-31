@@ -5,7 +5,7 @@
 GameClient::GameClient()
 {
 	_hWnd = nullptr;
-	_sceneManager = make_unique<SceneManager>();
+	_sceneManager = make_unique<SceneManager>();		// memory leak
 }
 
 GameClient::~GameClient()

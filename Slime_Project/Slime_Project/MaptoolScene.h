@@ -14,6 +14,7 @@ public:
 	void					SaveData();
 
 private:
+	bool					_mouseDown;
 	int						_tileSizeX;
 	int						_tileSizeY;
 	int						_writeMode;

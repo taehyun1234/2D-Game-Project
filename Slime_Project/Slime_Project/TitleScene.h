@@ -6,6 +6,7 @@ class TitleScene : public Scene
 {
 public:
 	TitleScene();
+	~TitleScene();
 
 	void Init(HWND hWnd);
 	SCENE Update(HWND hWnd);

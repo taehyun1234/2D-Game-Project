@@ -5,8 +5,8 @@
 MainScene::MainScene()
 {
 	_curIdx = SCENE::SCENE_MAIN;
-	_boss = make_unique<Boss>();
-	_player = make_unique<Player>();
+	_boss = make_unique<Boss>();						// memory leak
+	_player = make_unique<Player>();					// memory leak
 	_time = 0;
 	_openMap.Load(L"..\\Resources\\images\\Main\\Open.png");
 	_closeMap.Load(L"..\\Resources\\images\\Main\\Close.png");
@@ -60,8 +60,8 @@ void MainScene::Draw(HWND hWnd, HDC hdc)
 {
 	_time += static_cast<float>(GET_SINGLE(Time)->GetDeltaTime());
 	DrawMap(hdc);
-	_boss->Draw(hdc, _time * _aniSpeed);
-	_player->Draw(hdc, _time * _aniSpeed);
+	_boss->Draw(hdc, static_cast<int>(_time * _aniSpeed));
+	_player->Draw(hdc, static_cast<int>(_time * _aniSpeed));
 }
 
 void MainScene::LoadMap()
@@ -93,6 +93,7 @@ void MainScene::LoadMap()
 		}
 	}
 
+	_boss->AStar(_mapData);
 }
 
 void MainScene::DrawMap(HDC hdc)

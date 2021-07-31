@@ -21,6 +21,9 @@
     <Filter Include="소스 파일\DynamicObject">
       <UniqueIdentifier>{da2da3d6-840d-4587-a1d3-a97cd3d4dd21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\AI">
+      <UniqueIdentifier>{30934d5a-c71a-4869-8f70-58c22718bdc2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -68,6 +71,9 @@
     <ClInclude Include="Player.h">
       <Filter>소스 파일\DynamicObject</Filter>
     </ClInclude>
+    <ClInclude Include="PathFinding.h">
+      <Filter>소스 파일\AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameClient.cpp">
@@ -105,6 +111,9 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>소스 파일\DynamicObject</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinding.cpp">
+      <Filter>소스 파일\AI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

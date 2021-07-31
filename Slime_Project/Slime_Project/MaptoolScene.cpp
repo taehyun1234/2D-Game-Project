@@ -19,8 +19,20 @@ void MaptoolScene::Init(HWND hWnd)
 			_mapData[i][j] = OPEN;
 		}
 	}
-	_writeMode = CLOSE;	
+	for (int i = 0; i < MAP_WIDTH; i++)
+	{
+		_mapData[i][0] = CLOSE;
+		_mapData[i][MAP_HEIGHT-1] = CLOSE;
+	}
 
+	for (int i = 0; i < MAP_HEIGHT; i++)
+	{
+		_mapData[0][i] = CLOSE;
+		_mapData[MAP_WIDTH-1][i] = CLOSE;
+	}
+
+	_writeMode = CLOSE;	
+	_mouseDown = false;
 	_mapData[3][3] = PLAYER;
 	_mapData[20][13] = BOSS;
 
@@ -65,32 +77,40 @@ void MaptoolScene::Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lPara
 			_writeMode = CLOSE;
 			break;
 		}
-	case WM_LBUTTONDOWN:
-		if (_save_UI->GetCollide() == true)
-			SaveData();
-
-		for (int i = 0; i < MAP_WIDTH; i++)
+	case WM_MOUSEMOVE:
+		if (_mouseDown == true) 
 		{
-			for (int j = 0; j < MAP_HEIGHT; j++)
+			for (int i = 0; i < MAP_WIDTH; i++)
 			{
-				int left = i * _tileSizeX;
-				int right = left + _tileSizeX;
-				int top = j * _tileSizeY;
-				int bottom = top + _tileSizeY;
-
-				if (_mousePt.x < right && _mousePt.x > left)
+				for (int j = 0; j < MAP_HEIGHT; j++)
 				{
-					if (_mousePt.y > top && _mousePt.y < bottom)
+					int left = i * _tileSizeX;
+					int right = left + _tileSizeX;
+					int top = j * _tileSizeY;
+					int bottom = top + _tileSizeY;
+
+					if (_mousePt.x < right && _mousePt.x > left)
 					{
-						if(!(_mapData[i][j] == PLAYER || _mapData[i][j] == BOSS))
+						if (_mousePt.y > top && _mousePt.y < bottom)
 						{
-							_mapData[i][j] = _writeMode;
+							if (!(_mapData[i][j] == PLAYER || _mapData[i][j] == BOSS))
+							{
+								_mapData[i][j] = _writeMode;
+							}
+							break;
 						}
-						break;
 					}
 				}
 			}
 		}
+		break;
+	case WM_LBUTTONUP:
+		_mouseDown = false;
+		break;
+	case WM_LBUTTONDOWN:
+		_mouseDown = true;
+		if (_save_UI->GetCollide() == true)
+			SaveData();
 		break;
 	}
 }
