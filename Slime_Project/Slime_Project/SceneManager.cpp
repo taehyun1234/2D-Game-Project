@@ -8,19 +8,16 @@ SceneManager::SceneManager()
 {
 	_curSceneIdx = SCENE_TITLE;
 
-	unique_ptr<Scene> titleScene = make_unique<TitleScene>();						// memory leak
-	unique_ptr<Scene> mainScene = make_unique<MainScene>();					// memory leak
-	unique_ptr<Scene> maptoolScene = make_unique<MaptoolScene>();			// memory leak
-
-	_scenes[SCENE_TITLE] = move(titleScene);
-	_scenes[SCENE_MAIN] = move(mainScene);
-	_scenes[SCENE_MAPTOOL] = move(maptoolScene);
+	_scenes[SCENE_TITLE] = make_unique<TitleScene>();
+	_scenes[SCENE_MAIN] = make_unique<MainScene>();
+	_scenes[SCENE_MAPTOOL] = make_unique<MaptoolScene>();
 	// scene들 초기화
 }
 
 
 SceneManager::~SceneManager()
 {
+	_scenes[SCENE_MAPTOOL].release();
 }
 
 void SceneManager::Update(HWND hWnd)

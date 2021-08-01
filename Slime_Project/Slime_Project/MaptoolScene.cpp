@@ -5,6 +5,10 @@ MaptoolScene::MaptoolScene()
 {
 }
 
+MaptoolScene::~MaptoolScene()
+{
+}
+
 void MaptoolScene::Init(HWND hWnd)
 {
 	_curIdx = SCENE::SCENE_MAPTOOL;

@@ -35,7 +35,7 @@ void MainScene::Init(HWND hWnd)
 
 SCENE MainScene::Update(HWND hWnd)
 {
-	_boss->Update();
+	_boss->Update(_tileSizeX,_tileSizeY);
 	_player->Update(_mapData,_tileSizeX,_tileSizeY);
 	return _curIdx;
 }
@@ -53,7 +53,7 @@ void MainScene::Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lParam)
 			_curIdx = SCENE::SCENE_TITLE;
 			break;
 		}
-	}
+	}	
 }
 
 void MainScene::Draw(HWND hWnd, HDC hdc)

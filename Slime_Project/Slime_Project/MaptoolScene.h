@@ -5,6 +5,7 @@ class MaptoolScene : public Scene
 {
 public:
 	MaptoolScene();
+	~MaptoolScene();
 
 	void					Init(HWND hWnd);
 	SCENE				Update(HWND hWnd);
