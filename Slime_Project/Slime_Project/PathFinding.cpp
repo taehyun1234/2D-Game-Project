@@ -3,6 +3,12 @@
 
 PathFinding::PathFinding()
 {
+	printf("pathfinding »ý¼º \n");
+}
+
+PathFinding::~PathFinding()
+{
+	printf("pathfinding ¼Ò¸ê \n");
 }
 
 void PathFinding::LoadMap(int x, int y, int value)

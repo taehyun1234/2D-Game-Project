@@ -8,10 +8,12 @@ UI::UI(int x, int y, int width, int height)
 	_y = y;
 	_width = width;
 	_height = height;
+	printf("UI »ý¼º \n");
 }
 
 UI::~UI()
 {
+	printf("UI ¼Ò¸ê \n");
 }
 
 void UI::SetImage(LPCTSTR str)

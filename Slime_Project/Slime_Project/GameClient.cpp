@@ -15,6 +15,7 @@ GameClient::~GameClient()
 void GameClient::Init(HWND hWnd)
 {
 	_hWnd = hWnd;
+	_sceneManager->Init(hWnd);
 	GET_SINGLE(Time)->Init();
 }
 

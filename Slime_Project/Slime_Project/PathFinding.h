@@ -8,7 +8,8 @@ class PathFinding
 {
 public:
 	PathFinding();
-	
+	~PathFinding();
+
 	void										LoadMap(int x, int y, int value);
 
 	Point2D*									GetMinFPoint();

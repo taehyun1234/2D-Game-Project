@@ -4,14 +4,17 @@
 Boss::Boss()
 {
 	_bossImg.Load(L"..\\Resources\\images\\Main\\슬라임_Sprite.png");
+	_bossAttackImg.Load(L"..\\Resources\\images\\Main\\슬라임_attack.png");
 	_x = 0, _y = 0, _width = 64, _height = 64;
 	hp = 1000;
 
 	_ai = make_unique<PathFinding>();		// memory leak
+	printf("보스 생성 \n");
 }
 
 Boss::~Boss()
 {
+	printf("보스 소멸 \n");
 }
 
 
@@ -76,19 +79,6 @@ void Boss::Init(int x,int y)
 void Boss::Draw(HDC hdc, int aniCount)
 {
 	int anicount = aniCount % 7;
-	Rectangle(hdc, _x, _y, _x + 64, _y + 64);
 	_bossImg.Draw(hdc, _x, _y, _width, _height, 235 * anicount, 0, 235, 254);
-//	int left = _x/20* _point[0]->_x;
-//	int right = left + _x / 20;
-//	int top = _y / 13 * _point[0]->_y;
-//	int bottom = top + _y / 13;
-//
-//	Rectangle(hdc, left, top, right, bottom);
-//
-//	left = _x / 20 * _point[_point.size()-1]->_x;
-//	right = left + _x / 20;
-//	top = _y / 13 * _point[_point.size() - 1]->_y;
-//	bottom = top + _y / 13;
-//
-//	Rectangle(hdc, left, top, right, bottom);
+	_bossAttackImg.Draw(hdc, _x, _y, _width, _height, 512 * anicount, 0, 512, 512);
 }

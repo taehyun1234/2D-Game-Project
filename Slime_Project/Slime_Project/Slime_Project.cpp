@@ -31,10 +31,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 	
     // TODO: 여기에 코드를 입력합니다.
-
 	// unique_ptr을 잘못쓰고 있음. 메모리릭이 계속있음. -- 왜일까?
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(226);
+//	_CrtSetBreakAlloc(259);
     // 전역 문자열을 초기화합니다.
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_SLIMEPROJECT, szWindowClass, MAX_LOADSTRING);
@@ -57,9 +56,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
-        }		
+        }
 		g_GameClient->Update();
-    }
+	}
    return (int) msg.wParam;
 }
 
@@ -116,7 +115,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    g_GameClient = make_unique<GameClient>();
    g_GameClient->Init(hWnd);
 
-
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
@@ -128,23 +126,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
-    case WM_COMMAND:
-        {
-            int wmId = LOWORD(wParam);
-            // 메뉴 선택을 구문 분석합니다:
-            switch (wmId)
-            {
-            case IDM_EXIT:
-                DestroyWindow(hWnd);
-                break;
-            default:
-                return DefWindowProc(hWnd, message, wParam, lParam);
-            }
-        }
-        break;
+	case WM_CREATE:
+		break;
     case WM_PAINT:
 		g_GameClient->Draw();
-        break;
+		break;
 	case WM_CHAR:
 	case WM_KEYUP:
 	case WM_KEYDOWN:

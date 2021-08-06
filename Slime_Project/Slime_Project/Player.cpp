@@ -6,7 +6,7 @@ Player::Player()
 	_player_Img_Basic.Load(L"..\\Resources\\images\\Main\\그린엘프_기본.png");
 	_player_Img_Attack.Load(L"..\\Resources\\images\\Main\\그린엘프_공격.png");
 	_x = 0, _y = 0, _width = 64, _height = 64;
-	hp = 1000;
+	_hp = 1000;
 	_playerAttack = false;
 	_playerDirection = FRONT;
 	_playerSpeed = 1;
@@ -78,6 +78,10 @@ void Player::Update(int mapData[MAP_WIDTH][MAP_HEIGHT], int tilesizeX, int tiles
 		}
 	}
 
+	for (shared_ptr<Arrow> p : _arrowList)
+	{
+		p->Update();
+	}
 
 	if (_playerAttack == true)
 	{
@@ -91,7 +95,7 @@ void Player::Init(int x, int y)
 	_y = y;
 	_width = 64;
 	_height = 64;
-	hp = 1000;
+	_hp = 1000;
 	_playerAttack = false;
 	_playerDirection = FRONT;
 	_playerSpeed = 3;
@@ -102,36 +106,40 @@ void Player::Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lParam)
 {
 	switch (keyMessage)
 	{
-	case WM_KEYDOWN:		
+	case WM_CHAR:		
 	{
-		if (GetAsyncKeyState(VK_SPACE) < 0)
+		switch (wParam)
 		{
-			_boundingBox = true;
-		}
-		if (GetAsyncKeyState(VK_LEFT) < 0)
-		{
-			_playermove = true;
-			_playerDirection = LEFT;
-		}
-		if (GetAsyncKeyState(VK_RIGHT) < 0)
-		{
-			_playermove = true;
-			_playerDirection = RIGHT;
-		}
-		if (GetAsyncKeyState(VK_UP) < 0)
-		{
+		case 'W':
+		case 'w':
 			_playermove = true;
 			_playerDirection = BACK;
 			break;
-		}
-		if (GetAsyncKeyState(VK_DOWN) < 0)
-		{
+		case 'A':
+		case 'a':
+			_playermove = true;
+			_playerDirection = LEFT;
+			break;
+		case 'S':
+		case 's':
 			_playermove = true;
 			_playerDirection = FRONT;
+			break;
+		case 'D':
+		case 'd':
+			_playermove = true;
+			_playerDirection = RIGHT;
+			break;
 		}
+	case WM_KEYDOWN:
 		if (GetAsyncKeyState(VK_SPACE) < 0)
 		{
 			_playerAttack = true;
+
+			shared_ptr<Arrow> arrow = make_shared<Arrow>();
+			arrow->Init(_x, _y, _playerDirection);
+			
+			_arrowList.push_back(arrow);
 		}
 		break;
 	}
@@ -206,5 +214,10 @@ void Player::Draw(HDC hdc, int aniCount)
 			_player_Img_Basic.Draw(hdc, _x, _y, _width, _height, 64 , 192, 64, 64);
 			break;
 		}
+	}
+
+	for (shared_ptr<Arrow> p : _arrowList)
+	{
+		p->Draw(hdc);
 	}
 }

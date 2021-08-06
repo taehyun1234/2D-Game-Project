@@ -7,20 +7,25 @@ MainScene::MainScene()
 	_curIdx = SCENE::SCENE_MAIN;
 	_boss = make_unique<Boss>();						// memory leak
 	_player = make_unique<Player>();					// memory leak
+	_house = make_unique < House>();
 	_time = 0;
+	_timeCnt = 0;
 	_openMap.Load(L"..\\Resources\\images\\Main\\Open.png");
 	_closeMap.Load(L"..\\Resources\\images\\Main\\Close.png");
+
+	printf("mainScene »ý¼º \n");
 }
 
 MainScene::~MainScene()
 {
+	printf("mainScene ¼Ò¸ê \n");
 }
 
 void MainScene::Init(HWND hWnd)
 {
 	_curIdx = SCENE::SCENE_MAIN;
 	_time = 0;
-	_aniSpeed = 10;
+	_aniSpeed = 0.2;
 	LoadMap();
 	RECT rect;
 	GetClientRect(hWnd, &rect);
@@ -29,6 +34,7 @@ void MainScene::Init(HWND hWnd)
 	_tileSizeY = (rect.bottom - rect.top) / MAP_HEIGHT;
 
 	//20 13
+	_house->Init(3 * _tileSizeX, 3 * _tileSizeY);
 	_boss->Init(20 * _tileSizeX, 13 * _tileSizeY);
 	_player->Init(3 * _tileSizeX, 3 * _tileSizeY);
 }
@@ -60,8 +66,16 @@ void MainScene::Draw(HWND hWnd, HDC hdc)
 {
 	_time += static_cast<float>(GET_SINGLE(Time)->GetDeltaTime());
 	DrawMap(hdc);
-	_boss->Draw(hdc, static_cast<int>(_time * _aniSpeed));
-	_player->Draw(hdc, static_cast<int>(_time * _aniSpeed));
+
+	if (_time > 1.f * _aniSpeed)
+	{
+		_timeCnt++;
+		_time = 0;
+	}
+
+	_house->Draw(hdc);
+	_boss->Draw(hdc, static_cast<int>(_timeCnt));
+	_player->Draw(hdc, static_cast<int>(_timeCnt));
 }
 
 void MainScene::LoadMap()

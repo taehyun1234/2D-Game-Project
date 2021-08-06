@@ -6,18 +6,29 @@
 
 SceneManager::SceneManager()
 {
-	_curSceneIdx = SCENE_TITLE;
-
-	_scenes[SCENE_TITLE] = make_unique<TitleScene>();
-	_scenes[SCENE_MAIN] = make_unique<MainScene>();
-	_scenes[SCENE_MAPTOOL] = make_unique<MaptoolScene>();
-	// scene들 초기화
+	printf("Scenemanager 생성 \n");
 }
 
 
 SceneManager::~SceneManager()
 {
-	_scenes[SCENE_MAPTOOL].release();
+	printf("Scenemanager 소멸 \n");
+}
+
+void SceneManager::Init(HWND hWnd)
+{
+	_curSceneIdx = SCENE_TITLE;
+
+	_scenes[SCENE_TITLE] = make_unique<TitleScene>();
+	_scenes[SCENE_MAIN] = make_unique<MainScene>();
+	_scenes[SCENE_MAPTOOL] = make_unique<MaptoolScene>();
+
+	for (int i = 0; i < SCENE_COUNT; i++)
+	{
+		_scenes[i]->Init(hWnd);
+	}
+
+	// scene들 초기화
 }
 
 void SceneManager::Update(HWND hWnd)

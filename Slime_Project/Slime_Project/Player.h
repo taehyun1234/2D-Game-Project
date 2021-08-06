@@ -1,12 +1,5 @@
 #pragma once
-
-enum DIR
-{
-	FRONT	= 0,
-	RIGHT,
-	LEFT,
-	BACK
-};
+#include "Arrow.h"
 
 class Player
 {
@@ -21,13 +14,16 @@ public:
 
 
 private:
-	int hp;
-	int _x, _y, _width, _height;
-	bool		_playermove;
-	int			_playerSpeed;
-	bool		_playerAttack;
-	bool		_boundingBox;
-	DIR		_playerDirection;
-	CImage	_player_Img_Basic;
-	CImage	_player_Img_Attack;
+	int					_hp;
+	int					_x, _y, _width, _height;
+	bool				_playermove;
+	int					_playerSpeed;
+	bool				_playerAttack;
+	bool				_boundingBox;
+
+	list<shared_ptr<Arrow>>		_arrowList;
+
+	int				    _playerDirection;
+	CImage			_player_Img_Basic;
+	CImage			_player_Img_Attack;
 };

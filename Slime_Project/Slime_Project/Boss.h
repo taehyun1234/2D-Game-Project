@@ -16,6 +16,7 @@ private:
 	float									_x, _y;
 	int										_width, _height;
 	CImage								_bossImg;
+	CImage								_bossAttackImg;
 	unique_ptr<PathFinding>		_ai;
 	vector<Point2D*>					_point;
 	int										_pointIdx;

@@ -3,17 +3,19 @@
 
 MaptoolScene::MaptoolScene()
 {
+	printf("MaptoolScene »ý¼º \n");
 }
 
 MaptoolScene::~MaptoolScene()
 {
+	printf("MaptoolScene ¼Ò¸ê \n");
 }
 
 void MaptoolScene::Init(HWND hWnd)
 {
 	_curIdx = SCENE::SCENE_MAPTOOL;
 
-	_save_UI = make_unique<UI>(1150, 380,400,200);
+	_save_UI = make_unique<UI>(1150, 380,400,200);									// leak
 	_save_UI->SetImage(L"..\\Resources\\images\\Maptool\\Save.png");
 
 	for (int i = 0; i < MAP_WIDTH; i++)

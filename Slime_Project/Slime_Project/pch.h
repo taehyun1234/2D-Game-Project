@@ -27,6 +27,11 @@ using namespace std;
 #define MAP_WIDTH			32
 #define MAP_HEIGHT			18
 
+#ifdef UNICODE
+#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+#else
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+#endif
 
 #define DECLARE_SINGLE(type)		\
 private:							\

@@ -3,6 +3,9 @@
 class Scene
 {
 public:
+	Scene();
+	virtual ~Scene();
+public:
 	virtual void Init(HWND hWnd) = 0;
 	virtual SCENE Update(HWND hWnd) = 0;
 	virtual void Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lParam) = 0;

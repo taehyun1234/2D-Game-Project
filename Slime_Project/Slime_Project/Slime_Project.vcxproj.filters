@@ -74,6 +74,12 @@
     <ClInclude Include="PathFinding.h">
       <Filter>소스 파일\AI</Filter>
     </ClInclude>
+    <ClInclude Include="House.h">
+      <Filter>소스 파일\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Arrow.h">
+      <Filter>소스 파일\DynamicObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameClient.cpp">
@@ -114,6 +120,12 @@
     </ClCompile>
     <ClCompile Include="PathFinding.cpp">
       <Filter>소스 파일\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="House.cpp">
+      <Filter>소스 파일\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Arrow.cpp">
+      <Filter>소스 파일\DynamicObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

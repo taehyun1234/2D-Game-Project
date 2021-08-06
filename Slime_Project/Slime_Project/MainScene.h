@@ -2,11 +2,12 @@
 #include "Scene.h"
 #include "Boss.h"
 #include "Player.h"
+#include "House.h"
 class MainScene :	public Scene
 {
 public:
 	MainScene();
-	~MainScene();
+	virtual ~MainScene();
 
 	void Init(HWND hWnd);
 	SCENE Update(HWND hWnd);
@@ -18,6 +19,7 @@ public:
 	void ResetScene();
 private:
 	float									_time;
+	int										_timeCnt;
 	int										_aniSpeed;
 
 	int										_tileSizeX;
@@ -25,6 +27,7 @@ private:
 
 	unique_ptr<Boss>					_boss;
 	unique_ptr<Player>				_player;
+	unique_ptr<House>				_house;
 
 	CImage								_openMap;
 	CImage								_closeMap;

@@ -8,10 +8,13 @@ TitleScene::TitleScene()
 	_start_UI->SetImage(L"..\\Resources\\images\\Title\\GameStart_UI.png");
 	_maptool_UI = make_unique<UI>(600, 650, 400, 200);								// memory leak
 	_maptool_UI->SetImage(L"..\\Resources\\images\\Title\\MapTool_UI.png");
+
+	printf("TitleScene »ý¼º \n");
 }
 
 TitleScene::~TitleScene()
 {
+	printf("TitleScene ¼Ò¸ê \n");
 }
 
 void TitleScene::Init(HWND hWnd)
