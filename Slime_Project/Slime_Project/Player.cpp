@@ -12,6 +12,7 @@ Player::Player()
 	_playerSpeed = 1;
 	_boundingBox = false;
 	_playermove = false;
+	_playerAttack_cnt = 0;
 }
 
 Player::~Player()
@@ -77,15 +78,15 @@ void Player::Update(int mapData[MAP_WIDTH][MAP_HEIGHT], int tilesizeX, int tiles
 			_y += _playerSpeed;
 		}
 	}
-
-	for (shared_ptr<Arrow> p : _arrowList)
-	{
-		p->Update();
-	}
-
+	
 	if (_playerAttack == true)
 	{
-		
+		_playerAttack_cnt++;
+		if (_playerAttack_cnt > 10)
+		{
+			_playerAttack_cnt = 0;
+			_playerAttack = false;
+		}
 	}
 }
 
@@ -135,11 +136,6 @@ void Player::Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lParam)
 		if (GetAsyncKeyState(VK_SPACE) < 0)
 		{
 			_playerAttack = true;
-
-			shared_ptr<Arrow> arrow = make_shared<Arrow>();
-			arrow->Init(_x, _y, _playerDirection);
-			
-			_arrowList.push_back(arrow);
 		}
 		break;
 	}
@@ -147,6 +143,13 @@ void Player::Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lParam)
 		_playermove = false;
 		break;
 	}
+}
+
+void Player::GetPos(int& x, int& y, int& dir)
+{
+	x = _x;
+	y = _y;
+	dir = _playerDirection;
 }
 
 void Player::Draw(HDC hdc, int aniCount)
@@ -199,25 +202,42 @@ void Player::Draw(HDC hdc, int aniCount)
 	}
 	else
 	{
-		switch (_playerDirection)
+		if (_playerAttack == true)		
 		{
-		case FRONT:
-			_player_Img_Basic.Draw(hdc, _x, _y, _width, _height, 64 , 0, 64, 64);
-			break;
-		case LEFT:
-			_player_Img_Basic.Draw(hdc, _x, _y, _width, _height, 64 , 64, 64, 64);
-			break;
-		case RIGHT:
-			_player_Img_Basic.Draw(hdc, _x, _y, _width, _height, 64 , 128, 64, 64);
-			break;
-		case BACK:
-			_player_Img_Basic.Draw(hdc, _x, _y, _width, _height, 64 , 192, 64, 64);
-			break;
+			switch (_playerDirection)
+			{
+			case FRONT:
+				_player_Img_Attack.Draw(hdc, _x, _y, _width, _height, 64 * anicount, 0, 64, 64);
+				break;
+			case LEFT:
+				_player_Img_Attack.Draw(hdc, _x, _y, _width, _height, 64 * anicount, 64, 64, 64);
+				break;
+			case RIGHT:
+				_player_Img_Attack.Draw(hdc, _x, _y, _width, _height, 64 * anicount, 128, 64, 64);
+				break;
+			case BACK:
+				_player_Img_Attack.Draw(hdc, _x, _y, _width, _height, 64 * anicount, 192, 64, 64);
+				break;
+			}
+		}
+		else
+		{
+			switch (_playerDirection)
+			{
+			case FRONT:
+				_player_Img_Basic.Draw(hdc, _x, _y, _width, _height, 64, 0, 64, 64);
+				break;
+			case LEFT:
+				_player_Img_Basic.Draw(hdc, _x, _y, _width, _height, 64, 64, 64, 64);
+				break;
+			case RIGHT:
+				_player_Img_Basic.Draw(hdc, _x, _y, _width, _height, 64, 128, 64, 64);
+				break;
+			case BACK:
+				_player_Img_Basic.Draw(hdc, _x, _y, _width, _height, 64, 192, 64, 64);
+				break;
+			}
 		}
 	}
 
-	for (shared_ptr<Arrow> p : _arrowList)
-	{
-		p->Draw(hdc);
-	}
 }

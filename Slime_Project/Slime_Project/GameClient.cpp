@@ -54,8 +54,6 @@ void GameClient::Draw()
 	DeleteObject(BackBit);
 	DeleteDC(MemDC);
 	EndPaint(_hWnd, &ps);
-
-	InvalidateRect(_hWnd, NULL, FALSE);
 }
 
 void GameClient::KeyInput(UINT keyMessage, WPARAM wParam, LPARAM lParam)

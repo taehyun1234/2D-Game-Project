@@ -7,7 +7,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include <crtdbg.h>
-
+#include <math.h>
 using namespace std;
 
 #ifdef _DEBUG
@@ -63,6 +63,14 @@ enum SCENE
 	SCENE_COUNT,
 };
 
+enum DIR
+{
+	RIGHT = 0,
+	LEFT,
+	FRONT,
+	BACK
+};
+
 
 // Get/Set
 #define SFC_GETSET(ret, fname, var)\
@@ -88,3 +96,6 @@ public:
 	Point2D(int x, int y) :_x(x), _y(y), _g(0), _h(0), _f(0), _parentPoint(nullptr) {}
 	void CalcF() { _f = _g + _h; }
 };
+
+// 충돌함수
+bool Collide2DCircle(float x1,float y1, float x2, float y2, float r);

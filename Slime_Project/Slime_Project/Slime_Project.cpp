@@ -57,7 +57,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
-		g_GameClient->Update();
+//		g_GameClient->Update();
 	}
    return (int) msg.wParam;
 }
@@ -112,6 +112,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    {
       return FALSE;
    }
+
    g_GameClient = make_unique<GameClient>();
    g_GameClient->Init(hWnd);
 
@@ -124,13 +125,17 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    switch (message)
-    {
+	switch (message)
+	{
 	case WM_CREATE:
+		SetTimer(hWnd, 0, 1, NULL);
 		break;
-    case WM_PAINT:
-		g_GameClient->Draw();
-		break;
+	case WM_TIMER:
+	{
+		g_GameClient->Update();
+		InvalidateRect(hWnd, NULL, FALSE);
+	}
+	break;
 	case WM_CHAR:
 	case WM_KEYUP:
 	case WM_KEYDOWN:
@@ -139,13 +144,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_MOUSEMOVE:
 	case WM_LBUTTONUP:
 	case WM_RBUTTONUP:
-		g_GameClient->KeyInput(message,wParam,lParam);
+		g_GameClient->KeyInput(message, wParam, lParam);
 		break;
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        break;
-    default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
-    }
-    return 0;
+	case WM_PAINT:
+	{
+		g_GameClient->Draw();
+	}
+		break;
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam);
+	}
+	return 0;
 }

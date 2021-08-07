@@ -5,8 +5,8 @@
 MainScene::MainScene()
 {
 	_curIdx = SCENE::SCENE_MAIN;
-	_boss = make_unique<Boss>();						// memory leak
-	_player = make_unique<Player>();					// memory leak
+	_monster = make_unique<Monster>();			
+	_player = make_unique<Player>();				
 	_house = make_unique < House>();
 	_time = 0;
 	_timeCnt = 0;
@@ -25,7 +25,7 @@ void MainScene::Init(HWND hWnd)
 {
 	_curIdx = SCENE::SCENE_MAIN;
 	_time = 0;
-	_aniSpeed = 0.2;
+	_aniSpeed = 0.1;
 	LoadMap();
 	RECT rect;
 	GetClientRect(hWnd, &rect);
@@ -35,14 +35,41 @@ void MainScene::Init(HWND hWnd)
 
 	//20 13
 	_house->Init(3 * _tileSizeX, 3 * _tileSizeY);
-	_boss->Init(20 * _tileSizeX, 13 * _tileSizeY);
+	_monster->Init(20 * _tileSizeX, 13 * _tileSizeY);
 	_player->Init(3 * _tileSizeX, 3 * _tileSizeY);
 }
 
 SCENE MainScene::Update(HWND hWnd)
 {
-	_boss->Update(_tileSizeX,_tileSizeY);
+	_monster->Update(_tileSizeX,_tileSizeY);
 	_player->Update(_mapData,_tileSizeX,_tileSizeY);
+		
+	if (_arrowList.size() > 0) {
+		for (list<shared_ptr<Arrow>>::iterator it = _arrowList.begin(); it != _arrowList.end();)
+		{
+			shared_ptr<Arrow> arr = *it;
+			arr->Update();
+			int x, y;
+			arr->GetCoord(x, y);
+
+			_monster->Hit(x, y);
+
+			if (arr->GetAliveTime() > 50)
+			{
+				_arrowList.erase(it++);
+			}
+			else 
+			{
+				it++;
+			}
+		}
+	}
+
+	int x, y;
+	_house->GetCoord(x, y);
+
+	_monster->Attack(x,y);
+
 	return _curIdx;
 }
 
@@ -57,6 +84,14 @@ void MainScene::Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lParam)
 		{
 		case VK_ESCAPE:
 			_curIdx = SCENE::SCENE_TITLE;
+			break;
+		case VK_SPACE:
+			shared_ptr<Arrow> arrow = make_shared<Arrow>();
+			int x, y, dir;
+			_player->GetPos(x, y, dir);
+			arrow->Init(x, y, dir);
+
+			_arrowList.push_back(arrow);
 			break;
 		}
 	}	
@@ -74,8 +109,12 @@ void MainScene::Draw(HWND hWnd, HDC hdc)
 	}
 
 	_house->Draw(hdc);
-	_boss->Draw(hdc, static_cast<int>(_timeCnt));
+	_monster->Draw(hdc, static_cast<int>(_timeCnt));
 	_player->Draw(hdc, static_cast<int>(_timeCnt));
+	for (shared_ptr<Arrow> p : _arrowList)
+	{
+		p->Draw(hdc);
+	}
 }
 
 void MainScene::LoadMap()
@@ -107,7 +146,7 @@ void MainScene::LoadMap()
 		}
 	}
 
-	_boss->AStar(_mapData);
+	_monster->AStar(_mapData);
 }
 
 void MainScene::DrawMap(HDC hdc)

@@ -30,3 +30,9 @@ void House::Init(int x, int y)
 	_width = 64;
 	_height = 64;
 }
+
+void House::GetCoord(int& x, int& y)
+{
+	x = _x;
+	y = _y;
+}

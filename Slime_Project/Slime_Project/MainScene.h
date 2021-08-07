@@ -1,8 +1,9 @@
 #pragma once
 #include "Scene.h"
-#include "Boss.h"
+#include "Monster.h"
 #include "Player.h"
 #include "House.h"
+#include "Arrow.h"
 class MainScene :	public Scene
 {
 public:
@@ -20,17 +21,18 @@ public:
 private:
 	float									_time;
 	int										_timeCnt;
-	int										_aniSpeed;
+	float									_aniSpeed;
 
 	int										_tileSizeX;
 	int										_tileSizeY;
 
-	unique_ptr<Boss>					_boss;
+	unique_ptr<Monster>			_monster;
 	unique_ptr<Player>				_player;
 	unique_ptr<House>				_house;
 
 	CImage								_openMap;
 	CImage								_closeMap;
 
+	list<shared_ptr<Arrow>>		_arrowList;
 	int										_mapData[MAP_WIDTH][MAP_HEIGHT];
 };

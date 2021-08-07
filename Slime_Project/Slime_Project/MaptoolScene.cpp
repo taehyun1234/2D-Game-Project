@@ -95,6 +95,11 @@ void MaptoolScene::Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lPara
 					int top = j * _tileSizeY;
 					int bottom = top + _tileSizeY;
 
+					if (i == 0 || j == 0 || i==MAP_WIDTH-1 || j ==MAP_HEIGHT-1)
+					{
+						continue;
+					}
+
 					if (_mousePt.x < right && _mousePt.x > left)
 					{
 						if (_mousePt.y > top && _mousePt.y < bottom)

@@ -19,14 +19,13 @@ void Arrow::Init(int x, int y, int dir)
 	_width = 64;
 	_height = 64;
 	_dir = dir;
-	_speed = 1;
+	_speed = 5;
+	_aliveTime = 0;
 }
 
 void Arrow::Draw(HDC hdc)
 {
-	_arrowImg.Draw(hdc, _x, _y, _width, _height, 300, 300 * _dir,300,300);
-
-//	_player_Img_Basic.Draw(hdc, _x, _y, _width, _height, 64, 192, 64, 64);
+	_arrowImg.Draw(hdc, _x, _y, _width, _height, 300 * _dir, 0,300,300);
 }
 
 void Arrow::Update()
@@ -46,4 +45,16 @@ void Arrow::Update()
 		_y -= _speed;
 		break;
 	}
+	_aliveTime++;
+}
+
+void Arrow::GetCoord(int& x, int& y)
+{
+	x = _x;
+	y = _y;
+}
+
+int Arrow::GetAliveTime()
+{
+	return _aliveTime;
 }
