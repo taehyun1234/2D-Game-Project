@@ -12,12 +12,12 @@ Monster::Monster()
 	_hit = false;
 	_attack = false;
 	_ai = make_unique<PathFinding>();		
-	printf("보스 생성 \n");
+	printf("몬스터 생성 \n");
 }
 
 Monster::~Monster()
 {
-	printf("보스 소멸 \n");
+	printf("몬스터 소멸 \n");
 }
 
 void Monster::AStar(int map[MAP_WIDTH][MAP_HEIGHT])

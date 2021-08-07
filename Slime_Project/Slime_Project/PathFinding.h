@@ -12,7 +12,7 @@ public:
 
 	void										LoadMap(int x, int y, int value);
 
-	Point2D*									GetMinFPoint();
+	Point2D* GetMinFPoint();
 	bool										RemoveFromOpenVec(Point2D* point);
 	bool										canReach(int x, int y);
 	bool										IsAccessiblePoint(Point2D* point, int x, int y, bool isIgnoreCorner);
@@ -31,6 +31,6 @@ public:
 	vector<Point2D*>						GetShortestPath(int startX, int startY, int endX, int endY);
 private:
 	int _map[MAP_WIDTH][MAP_HEIGHT];
-	vector<Point2D*> _openVec;
-	vector<Point2D*> _closeVec;
+	vector<Point2D*> _openVec;				// 앞으로 탐색할 여지가 있는 노드들의 후보리스트
+	vector<Point2D*> _closeVec;				// 더 이상 탐색을 시도할 여지가 없는 노드들의 리스트
 };

@@ -68,9 +68,6 @@
     <ClInclude Include="Player.h">
       <Filter>소스 파일\DynamicObject</Filter>
     </ClInclude>
-    <ClInclude Include="PathFinding.h">
-      <Filter>소스 파일\AI</Filter>
-    </ClInclude>
     <ClInclude Include="House.h">
       <Filter>소스 파일\Object</Filter>
     </ClInclude>
@@ -79,6 +76,12 @@
     </ClInclude>
     <ClInclude Include="Monster.h">
       <Filter>소스 파일\DynamicObject</Filter>
+    </ClInclude>
+    <ClInclude Include="PathFinding.h">
+      <Filter>소스 파일\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Astar.h">
+      <Filter>소스 파일\AI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -115,9 +118,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>소스 파일\DynamicObject</Filter>
     </ClCompile>
-    <ClCompile Include="PathFinding.cpp">
-      <Filter>소스 파일\AI</Filter>
-    </ClCompile>
     <ClCompile Include="House.cpp">
       <Filter>소스 파일\Object</Filter>
     </ClCompile>
@@ -126,6 +126,12 @@
     </ClCompile>
     <ClCompile Include="Monster.cpp">
       <Filter>소스 파일\DynamicObject</Filter>
+    </ClCompile>
+    <ClCompile Include="PathFinding.cpp">
+      <Filter>소스 파일\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Astar.cpp">
+      <Filter>소스 파일\AI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

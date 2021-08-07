@@ -22,6 +22,28 @@ Player::~Player()
 void Player::Update(int mapData[MAP_WIDTH][MAP_HEIGHT], int tilesizeX, int tilesizeY)
 {
 	// 충돌체크
+
+	if (_playermove == true)
+	{
+		if (_playerDirection == LEFT)
+		{
+			_x -= _playerSpeed;
+		}
+		else if (_playerDirection == RIGHT)
+		{
+			_x += _playerSpeed;
+		}
+		else if (_playerDirection == BACK)
+		{
+			_y -= _playerSpeed;
+		}
+		else if (_playerDirection == FRONT)
+		{
+			_y += _playerSpeed;
+		}
+	}
+
+
 	for (int i = 0; i < MAP_WIDTH; i++)
 	{
 		for (int j = 0; j < MAP_HEIGHT; j++)
@@ -59,26 +81,6 @@ void Player::Update(int mapData[MAP_WIDTH][MAP_HEIGHT], int tilesizeX, int tiles
 		}
 	}
 
-	if (_playermove == true)
-	{
-		if (_playerDirection == LEFT)
-		{
-			_x -= _playerSpeed;
-		}
-		else if (_playerDirection == RIGHT)
-		{
-			_x += _playerSpeed;
-		}
-		else if (_playerDirection == BACK)
-		{
-			_y -= _playerSpeed;
-		}
-		else if (_playerDirection == FRONT)
-		{
-			_y += _playerSpeed;
-		}
-	}
-	
 	if (_playerAttack == true)
 	{
 		_playerAttack_cnt++;

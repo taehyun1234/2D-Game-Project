@@ -53,7 +53,7 @@ bool PathFinding::canReach(int x, int y)
 
 bool PathFinding::IsAccessiblePoint(Point2D* point, int x, int y, bool isIgnoreCorner)
 {
-	if (!canReach(x, y) || IsInCloseVec(x, y))
+	if (!canReach(x, y) || IsInCloseVec(x, y))			// 열려있지 않거나, 클로즈 리스트일 경우 접근 불가
 		return false;
 	else
 	{
@@ -64,6 +64,10 @@ bool PathFinding::IsAccessiblePoint(Point2D* point, int x, int y, bool isIgnoreC
 		{
 			if (canReach(abs(x - 1), y) && canReach(x, abs(y - 1)))   // 대각선
 				return true;
+			else if (IsInCloseVec(x, y))
+			{
+
+			}
 			else
 				return isIgnoreCorner;   // 대각선을 무시하는 경우
 		}
@@ -89,6 +93,7 @@ vector<Point2D*> PathFinding::GetAdjacentPoints(Point2D* point, bool isIgnoreCor
 
 bool PathFinding::IsInOpenVec(int x, int y)
 {
+	// x, y 좌표가 현재 OpenList에 있는지 조사
 	for (vector<Point2D*>::iterator it = _openVec.begin(); it != _openVec.end(); ++it)
 	{
 		if ((*it)->_x == x && (*it)->_y == y)
@@ -99,6 +104,7 @@ bool PathFinding::IsInOpenVec(int x, int y)
 
 bool PathFinding::IsInCloseVec(int x, int y)
 {
+	// x, y 좌표가 현재 CloseList에 있는지 조사
 	for (vector<Point2D*>::iterator it = _closeVec.begin(); it != _closeVec.end(); ++it)
 	{
 		if ((*it)->_x == x && (*it)->_y == y)
@@ -129,6 +135,7 @@ void PathFinding::NotFoundPoint(Point2D* tmpStart, Point2D* end, Point2D* point)
 
 void PathFinding::ResetVector()
 {
+	// 오픈리스트, 클로즈리스트 리셋
 	_openVec.clear();
 	_closeVec.clear();
 }
@@ -162,7 +169,6 @@ Point2D* PathFinding::FindPath(Point2D* start, Point2D* end, bool isIgnoreCorner
 			Point2D* point = *it;
 			if (IsInOpenVec(point->_x, point->_y))   // 오픈리스트에 있는지
 				RefreshPoint(tmpStart, point);
-//				노드의 g 값을 확인하고 새로 계산된 경로 비용이 g 값보다 낮으면 노드를 다시 엽니다(즉, 다시 OPEN 세트에 넣습니다).				//}
 			else
 				NotFoundPoint(tmpStart, end, point);
 		}
@@ -180,13 +186,12 @@ Point2D* PathFinding::FindPath(Point2D* start, Point2D* end, bool isIgnoreCorner
 
 vector<Point2D*> PathFinding::GetShortestPath(int startX, int startY, int endX, int endY)
 {
-	Point2D* s = new Point2D(startX,startY);
-	Point2D* e = new Point2D(endX,endY);
+	Point2D* start = new Point2D(startX, startY);
+	Point2D* end = new Point2D(endX, endY);
 
-	_openVec.clear();
-	_closeVec.clear();
+	ResetVector();
 
-	Point2D* point = FindPath(s, e, false);
+	Point2D* point = FindPath(start, end, false);
 
 	vector<Point2D*> temp;
 
@@ -195,5 +200,6 @@ vector<Point2D*> PathFinding::GetShortestPath(int startX, int startY, int endX, 
 		temp.push_back(point);
 		point = point->_parentPoint;
 	}
+
 	return temp;
 }

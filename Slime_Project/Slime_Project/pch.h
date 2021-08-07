@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <crtdbg.h>
 #include <math.h>
+#include <functional>
+#include <set>
 using namespace std;
 
 #ifdef _DEBUG
