@@ -7,7 +7,7 @@ Monster::Monster()
 	_bossHitImg.Load(L"..\\Resources\\images\\Main\\슬라임_Hit.png");
 	_bossAttackImg.Load(L"..\\Resources\\images\\Main\\슬라임_Attack.png");
 	_x = 0, _y = 0, _width = 47, _height = 47;
-	hp = 1000;
+	_hp = 1000;
 	_hitAniCount = 0;
 	_hit = false;
 	_attack = false;
@@ -27,13 +27,16 @@ Monster::~Monster()
 	printf("몬스터 소멸 \n");
 }
 
-void Monster::Hit(int x, int y)
+bool Monster::Hit(int x, int y)
 {
+	bool bRet = false;
 	if (Collide2DCircle(_x, _y, x, y,30) == true)
 	{
    		_hit = true;
-		hp -= 100;
+		_hp -= 100;
+		bRet = true;
 	}
+	return bRet;
 }
 
 void Monster::Attack_House(int x, int y)
@@ -54,6 +57,11 @@ void Monster::GetPos(int& x, int& y)
 {
 	x = _x;
 	y = _y;
+}
+
+int Monster::GetHP()
+{
+	return _hp;
 }
 
 void Monster::Update(int tileSizeX, int tileSizeY)
@@ -118,7 +126,7 @@ void Monster::Init(int x,int y)
 {
 	_x = x;
 	_y = y;
-	hp = 1000;
+	_hp = 1000;
 }
 
 void Monster::Draw(HDC hdc, int aniCount)

@@ -28,7 +28,7 @@ private:
 	int										_tileSizeX;
 	int										_tileSizeY;
 
-	unique_ptr<Monster>			_monster;
+//	unique_ptr<Monster>			_monster;
 
 	unique_ptr<House>				_house;
 	
@@ -37,7 +37,9 @@ private:
 
 	list<shared_ptr<Arrow>>		_arrowList;
 	list<shared_ptr<MonsterAttack>>	_monsterAttack;
-
+	list<shared_ptr<Monster>>		_monsterList;
+	
+	int										_monsterGenCnt;
 	int										_monsterAttackCnt;
 
 public:

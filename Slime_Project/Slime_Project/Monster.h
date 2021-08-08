@@ -10,13 +10,13 @@ public:
 	void									Init(int x, int y);
 	void									Draw(HDC hdc, int aniCount);
 	void									GetTilePos(int& x, int& y, int tileSizeX, int tileSizeY);
-	void									Hit(int x, int y);							// 플레이어의 화살에 맞았을 경우
+	bool									Hit(int x, int y);							// 플레이어의 화살에 맞았을 경우
 	void									Attack_House(int x, int y);			// 집을 공격할 경우
 	void									ChangeTargetPos(list<Coordinate*> point);
 	void									GetPos(int& x, int& y);
-
+	int										GetHP();
 private:
-	int										hp;
+	int										_hp;
 	float									_x, _y;
 	int										_width, _height;
 	CImage								_bossImg;
