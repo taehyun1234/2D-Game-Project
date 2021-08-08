@@ -10,7 +10,9 @@ public:
 	void Init(int x, int y);
 	void Draw(HDC hdc, int aniCount);
 	void Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lParam);
+	void GetPos(int& x, int& y);
 	void GetPos(int& x, int& y, int& dir);
+	void GetTilePos(int& x, int& y, int tileSizeX, int tileSizeY);
 
 private:
 	int										_hp;

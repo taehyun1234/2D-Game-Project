@@ -6,31 +6,25 @@ Monster::Monster()
 	_bossImg.Load(L"..\\Resources\\images\\Main\\슬라임_Sprite.png");
 	_bossHitImg.Load(L"..\\Resources\\images\\Main\\슬라임_Hit.png");
 	_bossAttackImg.Load(L"..\\Resources\\images\\Main\\슬라임_Attack.png");
-	_x = 0, _y = 0, _width = 64, _height = 64;
+	_x = 0, _y = 0, _width = 47, _height = 47;
 	hp = 1000;
 	_hitAniCount = 0;
 	_hit = false;
 	_attack = false;
-	_ai = make_unique<PathFinding>();		
 	printf("몬스터 생성 \n");
+	_iter = _point.begin();
+}
+
+
+void Monster::GetTilePos(int& x, int& y, int tileSizeX, int tileSizeY)
+{
+	x = _x / tileSizeX;
+	y = _y / tileSizeY;
 }
 
 Monster::~Monster()
 {
 	printf("몬스터 소멸 \n");
-}
-
-void Monster::AStar(int map[MAP_WIDTH][MAP_HEIGHT])
-{
-	for (int i = 0; i < MAP_WIDTH; i++)
-	{
-		for (int j = 0; j < MAP_HEIGHT; j++)
-		{
-			_ai->LoadMap(i, j, map[i][j]);
-		}
-	}
-	_point = _ai->GetShortestPath(20, 13, 3, 3);
-	_pointIdx = _point.size() - 1;
 }
 
 void Monster::Hit(int x, int y)
@@ -42,12 +36,24 @@ void Monster::Hit(int x, int y)
 	}
 }
 
-void Monster::Attack(int x, int y)
+void Monster::Attack_House(int x, int y)
 {
 	if (Collide2DCircle(_x, _y, x, y, 30) == true)
 	{
 		_attack = true;
 	}
+}
+
+void Monster::ChangeTargetPos(list<Coordinate*> point)
+{
+	_point = point;
+	_iter = _point.begin();
+}
+
+void Monster::GetPos(int& x, int& y)
+{
+	x = _x;
+	y = _y;
 }
 
 void Monster::Update(int tileSizeX, int tileSizeY)
@@ -62,7 +68,6 @@ void Monster::Update(int tileSizeX, int tileSizeY)
 		}
 	}
 
-
 	if (_hit == true)
 	{
 		_hitAniCount++;
@@ -74,14 +79,14 @@ void Monster::Update(int tileSizeX, int tileSizeY)
 	}
 	else
 	{
-		if (_point.size() > 0)
+		if (_iter != _point.end())
 		{
-			float ptX = _point[_pointIdx]->_x * tileSizeX;
-			float ptY = _point[_pointIdx]->_y * tileSizeY;
-
-			float moveX = 1;//abs(ptX - _x) * 0.1;
-			float moveY = 1;//abs(ptY - _y) * 0.1;
-
+			float ptX =(*_iter)->x * tileSizeX;
+			float ptY =(*_iter)->y * tileSizeY;
+		
+			float moveX = 1;
+			float moveY = 1;
+		
 			if (ptX < _x)
 			{
 				_x -= moveX;
@@ -90,7 +95,7 @@ void Monster::Update(int tileSizeX, int tileSizeY)
 			{
 				_x += moveX;
 			}
-
+		
 			if (ptY < _y)
 			{
 				_y -= moveY;
@@ -99,13 +104,11 @@ void Monster::Update(int tileSizeX, int tileSizeY)
 			{
 				_y += moveY;
 			}
-
+		
 			if (static_cast<int>(ptX) == static_cast<int>(_x) && static_cast<int>(ptY) == static_cast<int>(_y))
 			{
-				if (_pointIdx > 0)
-				{
-					_pointIdx--;
-				}
+				if(_iter != _point.end())
+					_iter++;
 			}
 		}
 	}

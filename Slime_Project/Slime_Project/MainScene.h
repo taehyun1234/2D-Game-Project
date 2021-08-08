@@ -4,6 +4,8 @@
 #include "Player.h"
 #include "House.h"
 #include "Arrow.h"
+#include "AStar.h"
+#include "MonsterAttack.h"
 class MainScene :	public Scene
 {
 public:
@@ -27,12 +29,33 @@ private:
 	int										_tileSizeY;
 
 	unique_ptr<Monster>			_monster;
-	unique_ptr<Player>				_player;
-	unique_ptr<House>				_house;
 
+	unique_ptr<House>				_house;
+	
 	CImage								_openMap;
 	CImage								_closeMap;
 
 	list<shared_ptr<Arrow>>		_arrowList;
+	list<shared_ptr<MonsterAttack>>	_monsterAttack;
+
+	int										_monsterAttackCnt;
+
+public:
+	//AI 관련
+	list<Coordinate*>					_coordiList;
 	int										_mapData[MAP_WIDTH][MAP_HEIGHT];
+	unique_ptr<Player>				_player;
+	unique_ptr<AStar>				_ai;
+
+	int										_player_Prevpos_x;
+	int										_player_Prevpos_y;		
+
+	int										_player_Curpos_x;
+	int										_player_Curpos_y;		// 실시간으로 플레이어의 좌표값이 바뀔 때마다 거리를 새로 계산
+
+	int										_monster_Prevpos_x;
+	int										_monster_Prevpos_y;
+
+	int										_monster_Curpos_x;
+	int										_monster_Curpos_y;		// 실시간으로 플레이어의 좌표값이 바뀔 때마다 거리를 새로 계산
 };

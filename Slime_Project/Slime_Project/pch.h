@@ -70,7 +70,11 @@ enum DIR
 	RIGHT = 0,
 	LEFT,
 	FRONT,
-	BACK
+	BACK,
+	LEFT_FRONT,
+	LEFT_BACK,
+	RIGHT_FRONT,
+	RIGHT_BACK,
 };
 
 
@@ -99,5 +103,20 @@ public:
 	void CalcF() { _f = _g + _h; }
 };
 
+class Coordinate
+{
+public:
+	Coordinate() {}
+	Coordinate(int _x, int _y) :x(_x),y(_y) {}
+	void Set(int _x, int _y) { x = _x; y = _y; }
+	Coordinate& operator = (const Coordinate& p)
+	{
+		x = p.x;
+		y = p.y;
+		return *this;
+	};
+public:
+	int x, y;				// x,y 좌표
+};
 // 충돌함수
 bool Collide2DCircle(float x1,float y1, float x2, float y2, float r);

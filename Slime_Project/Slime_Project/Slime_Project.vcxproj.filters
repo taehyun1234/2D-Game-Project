@@ -77,11 +77,11 @@
     <ClInclude Include="Monster.h">
       <Filter>소스 파일\DynamicObject</Filter>
     </ClInclude>
-    <ClInclude Include="PathFinding.h">
+    <ClInclude Include="AStar.h">
       <Filter>소스 파일\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Astar.h">
-      <Filter>소스 파일\AI</Filter>
+    <ClInclude Include="MonsterAttack.h">
+      <Filter>소스 파일\DynamicObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -127,11 +127,11 @@
     <ClCompile Include="Monster.cpp">
       <Filter>소스 파일\DynamicObject</Filter>
     </ClCompile>
-    <ClCompile Include="PathFinding.cpp">
+    <ClCompile Include="AStar.cpp">
       <Filter>소스 파일\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Astar.cpp">
-      <Filter>소스 파일\AI</Filter>
+    <ClCompile Include="MonsterAttack.cpp">
+      <Filter>소스 파일\DynamicObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

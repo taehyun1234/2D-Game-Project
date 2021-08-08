@@ -5,7 +5,7 @@ Player::Player()
 {
 	_player_Img_Basic.Load(L"..\\Resources\\images\\Main\\그린엘프_기본.png");
 	_player_Img_Attack.Load(L"..\\Resources\\images\\Main\\그린엘프_공격.png");
-	_x = 0, _y = 0, _width = 64, _height = 64;
+	_x = 0, _y = 0, _width = 47, _height = 47;
 	_hp = 1000;
 	_playerAttack = false;
 	_playerDirection = FRONT;
@@ -147,11 +147,23 @@ void Player::Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lParam)
 	}
 }
 
+void Player::GetPos(int& x, int& y)
+{
+	x = _x;
+	y = _y;
+}
 void Player::GetPos(int& x, int& y, int& dir)
 {
 	x = _x;
 	y = _y;
 	dir = _playerDirection;
+}
+
+void Player::GetTilePos(int& x, int& y, int tileSizeX, int tileSizeY)
+{
+	x = (_x - _width / 2) / tileSizeX;
+	y = (_y - _height / 2) / tileSizeY;
+
 }
 
 void Player::Draw(HDC hdc, int aniCount)

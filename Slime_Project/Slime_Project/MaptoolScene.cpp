@@ -25,17 +25,6 @@ void MaptoolScene::Init(HWND hWnd)
 			_mapData[i][j] = OPEN;
 		}
 	}
-	for (int i = 0; i < MAP_WIDTH; i++)
-	{
-		_mapData[i][0] = CLOSE;
-		_mapData[i][MAP_HEIGHT-1] = CLOSE;
-	}
-
-	for (int i = 0; i < MAP_HEIGHT; i++)
-	{
-		_mapData[0][i] = CLOSE;
-		_mapData[MAP_WIDTH-1][i] = CLOSE;
-	}
 
 	_writeMode = CLOSE;	
 	_mouseDown = false;
@@ -95,10 +84,6 @@ void MaptoolScene::Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lPara
 					int top = j * _tileSizeY;
 					int bottom = top + _tileSizeY;
 
-					if (i == 0 || j == 0 || i==MAP_WIDTH-1 || j ==MAP_HEIGHT-1)
-					{
-						continue;
-					}
 
 					if (_mousePt.x < right && _mousePt.x > left)
 					{
