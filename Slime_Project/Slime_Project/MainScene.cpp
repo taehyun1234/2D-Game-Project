@@ -6,13 +6,15 @@ MainScene::MainScene()
 {
 	_curIdx = SCENE::SCENE_MAIN;
 	_player = make_unique<Player>();				
-	_house = make_unique < House>();
+	_house = make_unique <House>();
 	_ai = make_unique<AStar>();
 
 	_time = 0;
 	_timeCnt = 0;
+	_portalCnt = 0;
 	_openMap.Load(L"..\\Resources\\images\\Main\\Open.png");
 	_closeMap.Load(L"..\\Resources\\images\\Main\\Close.png");
+	_portal.Load(L"..\\Resources\\images\\Main\\portal.png");
 	printf("mainScene 생성 \n");
 	_player_Curpos_x = 0;
 	_player_Curpos_y = 0;
@@ -42,8 +44,19 @@ void MainScene::Init(HWND hWnd)
 
 SCENE MainScene::Update(HWND hWnd)
 {
-	_player->Update(_mapData,_tileSizeX,_tileSizeY);
+	if (_player->Update(_mapData, _tileSizeX, _tileSizeY))
+	{
+		_curIdx = SCENE_ENDING;
+	}
 		
+	if (_portalCnt > 7)
+	{
+		_portalCnt = 0;
+	}
+	else
+	{
+		_portalCnt++;
+	}
 	if (_monsterAttack.size() > 0) {
 		for (list<shared_ptr<MonsterAttack>>::iterator it = _monsterAttack.begin(); it != _monsterAttack.end();)
 		{
@@ -52,7 +65,13 @@ SCENE MainScene::Update(HWND hWnd)
 			int x, y;
 			arr->GetCoord(x, y);
 
-//			_player->Hit(x, y);
+			bool hit = _player->Hit(x, y);
+
+			if (hit == true)
+			{
+				_monsterAttack.erase(it++);
+				break;
+			}
 
 			if (arr->GetAliveTime() > 50)
 			{
@@ -156,11 +175,25 @@ SCENE MainScene::Update(HWND hWnd)
 		}
 		int x, y;
 		_house->GetCoord(x, y);
-		(*it)->Attack_House(x, y);
+		
+		if ((*it)->Attack_House(x, y) == true)
+		{
+			if (_house->Damaged(100) == true)
+			{
+				_curIdx = SCENE_ENDING;
+				break;
+			}
+			else
+			{
+				_monsterList.erase(it++);
+				continue;
+			}
+		}
 
 		if ((*it)->GetHP() < 0)
 		{
 			_monsterList.erase(it++);
+			continue;
 			// 지우는 조건
 		}
 		else
@@ -206,6 +239,8 @@ void MainScene::Draw(HWND hWnd, HDC hdc)
 		_timeCnt++;
 		_time = 0;
 	}
+
+	_portal.Draw(hdc, 980, 637, 100, 100, 320*_portalCnt, 0, 320, 320);
 
 	_house->Draw(hdc);
 

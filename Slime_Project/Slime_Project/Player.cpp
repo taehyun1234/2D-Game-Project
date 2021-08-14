@@ -5,7 +5,9 @@ Player::Player()
 {
 	_player_Img_Basic.Load(L"..\\Resources\\images\\Main\\그린엘프_기본.png");
 	_player_Img_Attack.Load(L"..\\Resources\\images\\Main\\그린엘프_공격.png");
-	_x = 0, _y = 0, _width = 47, _height = 47;
+	_hpBar.Load(L"..\\Resources\\images\\Main\\hp_bar.png");
+	_hpfill.Load(L"..\\Resources\\images\\Main\\hp.png");
+	_x = 0, _y = 0, _width = 49, _height = 49;
 	_hp = 1000;
 	_playerAttack = false;
 	_playerDirection = FRONT;
@@ -19,9 +21,13 @@ Player::~Player()
 {
 }
 
-void Player::Update(int mapData[MAP_WIDTH][MAP_HEIGHT], int tilesizeX, int tilesizeY)
+bool Player::Update(int mapData[MAP_WIDTH][MAP_HEIGHT], int tilesizeX, int tilesizeY)
 {
-	// 충돌체크
+	bool bRet = false;
+	if (_hp <= 0)
+	{
+		bRet = true;
+	}
 
 	if (_playermove == true)
 	{
@@ -44,6 +50,25 @@ void Player::Update(int mapData[MAP_WIDTH][MAP_HEIGHT], int tilesizeX, int tiles
 	}
 
 
+	if (OutOfScreen(_x,_y,_width,_height) == true)
+	{
+		if (_playerDirection == LEFT)
+		{
+			_x += _playerSpeed;
+		}
+		else if (_playerDirection == RIGHT)
+		{
+			_x -= _playerSpeed;
+		}
+		else if (_playerDirection == BACK)
+		{
+			_y += _playerSpeed;
+		}
+		else if (_playerDirection == FRONT)
+		{
+			_y -= _playerSpeed;
+		}
+	}
 	for (int i = 0; i < MAP_WIDTH; i++)
 	{
 		for (int j = 0; j < MAP_HEIGHT; j++)
@@ -51,35 +76,31 @@ void Player::Update(int mapData[MAP_WIDTH][MAP_HEIGHT], int tilesizeX, int tiles
 			if (mapData[i][j] == CLOSE)
 			{
 				int left = i * tilesizeX;
-				int right = left + tilesizeX;
 				int top = j * tilesizeY;
-				int bottom = top + tilesizeY;
 
-				if (!(_y > bottom || _y + _height < top))
+				if (RectCollision(_x, _y, _width, _height, left, top, tilesizeX, tilesizeY) == true)
 				{
-					if ((_x < right) && (_x + _width > left) )
+					if (_playerDirection == LEFT)
 					{
-						if (_playerDirection == LEFT)
-							_x += _playerSpeed;
-						if (_playerDirection == RIGHT)
-							_x -= _playerSpeed;
+						_x += _playerSpeed;
 					}
-				}
-
-
-				if (!(_x + _width < left || _x > right))
-				{
-					if ((_y < bottom) && (_y + _height > top))
+					else if (_playerDirection == RIGHT)
 					{
-						if (_playerDirection == FRONT)
-							_y -= _playerSpeed;
-						if (_playerDirection == BACK)
-							_y += _playerSpeed;
+						_x -= _playerSpeed;
+					}
+					else if (_playerDirection == BACK)
+					{
+						_y += _playerSpeed;
+					}
+					else if (_playerDirection == FRONT)
+					{
+						_y -= _playerSpeed;
 					}
 				}
 			}
 		}
 	}
+
 
 	if (_playerAttack == true)
 	{
@@ -90,14 +111,14 @@ void Player::Update(int mapData[MAP_WIDTH][MAP_HEIGHT], int tilesizeX, int tiles
 			_playerAttack = false;
 		}
 	}
+
+	return bRet;
 }
 
 void Player::Init(int x, int y)
 {
 	_x = x;
 	_y = y;
-	_width = 64;
-	_height = 64;
 	_hp = 1000;
 	_playerAttack = false;
 	_playerDirection = FRONT;
@@ -113,6 +134,12 @@ void Player::Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lParam)
 	{
 		switch (wParam)
 		{
+		case 'M':
+			if (_boundingBox == false)
+				_boundingBox = true;
+			else
+				_boundingBox = false;
+			break;
 		case 'W':
 		case 'w':
 			_playermove = true;
@@ -166,6 +193,18 @@ void Player::GetTilePos(int& x, int& y, int tileSizeX, int tileSizeY)
 
 }
 
+bool Player::Hit(int x, int y)
+{
+	bool bRet = false;
+	if (Collide2DCircle(_x, _y, x, y, 30) == true)
+	{
+		_hit = true;
+		_hp -= 50;
+		bRet = true;
+	}
+	return bRet;
+}
+
 void Player::Draw(HDC hdc, int aniCount)
 {
 	int anicount = aniCount % 4;
@@ -173,6 +212,14 @@ void Player::Draw(HDC hdc, int aniCount)
 	if (_boundingBox == true)
 	{
 		Rectangle(hdc, _x, _y, _x + _width, _y + _height);
+	}
+
+	int bar = (1000 - _hp) * 40 / 1000;
+
+	if (40 - bar > 0) 
+	{
+		_hpBar.Draw(hdc, _x, _y - _height / 3, 40, 10, 0, 0, 901, 241);
+		_hpfill.Draw(hdc, _x, _y - _height / 3, 40 - bar, 10, 0, 0, 901, 241);
 	}
 
 	if (_playermove == true)

@@ -56,12 +56,19 @@ using uint16	= unsigned __int16;
 using uint32	= unsigned __int32;
 using uint64	= unsigned __int64;
 
+class SceneSharingData
+{
+public:
+	int score;
+};
+
 
 enum SCENE
 {
 	SCENE_TITLE = 0,
 	SCENE_MAIN,
 	SCENE_MAPTOOL,
+	SCENE_ENDING,
 	SCENE_COUNT,
 };
 
@@ -120,3 +127,5 @@ public:
 };
 // 충돌함수
 bool Collide2DCircle(float x1,float y1, float x2, float y2, float r);
+bool RectCollision(int x1, int y1, int width1, int height1, int x2, int y2, int width2, int height2);
+bool OutOfScreen(int x, int y, int width, int height);

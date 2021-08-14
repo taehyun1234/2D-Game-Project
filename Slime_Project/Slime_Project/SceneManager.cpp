@@ -3,6 +3,7 @@
 #include "TitleScene.h"
 #include "MainScene.h"
 #include "MaptoolScene.h"
+#include "EndingScene.h"
 
 SceneManager::SceneManager()
 {
@@ -22,6 +23,7 @@ void SceneManager::Init(HWND hWnd)
 	_scenes[SCENE_TITLE] = make_unique<TitleScene>();
 	_scenes[SCENE_MAIN] = make_unique<MainScene>();
 	_scenes[SCENE_MAPTOOL] = make_unique<MaptoolScene>();
+	_scenes[SCENE_ENDING] = make_unique<EndingScene>();
 
 	for (int i = 0; i < SCENE_COUNT; i++)
 	{

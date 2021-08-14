@@ -6,13 +6,18 @@ Monster::Monster()
 	_bossImg.Load(L"..\\Resources\\images\\Main\\슬라임_Sprite.png");
 	_bossHitImg.Load(L"..\\Resources\\images\\Main\\슬라임_Hit.png");
 	_bossAttackImg.Load(L"..\\Resources\\images\\Main\\슬라임_Attack.png");
-	_x = 0, _y = 0, _width = 47, _height = 47;
+	_hpBar.Load(L"..\\Resources\\images\\Main\\hp_bar.png");
+	_hpfill.Load(L"..\\Resources\\images\\Main\\hp.png");
+	_spawnAni.Load(L"..\\Resources\\images\\Main\\spawn.png");
+	_x = 0, _y = 0, _width = 49, _height = 49;
 	_hp = 1000;
-	_hitAniCount = 0;
+	_hitAniCnt = 0;
 	_hit = false;
 	_attack = false;
 	printf("몬스터 생성 \n");
 	_iter = _point.begin();
+	_spawn = false;
+	_attackAniCnt = 0;
 }
 
 
@@ -39,12 +44,16 @@ bool Monster::Hit(int x, int y)
 	return bRet;
 }
 
-void Monster::Attack_House(int x, int y)
+bool Monster::Attack_House(int x, int y)
 {
+	bool bRet = false;
+
 	if (Collide2DCircle(_x, _y, x, y, 30) == true)
 	{
+		bRet = true;
 		_attack = true;
 	}
+	return bRet;
 }
 
 void Monster::ChangeTargetPos(list<Coordinate*> point)
@@ -68,20 +77,31 @@ void Monster::Update(int tileSizeX, int tileSizeY)
 {
 	if (_attack == true)
 	{
-		_attackAniCount++;
-		if (_attackAniCount > 6)
+		_attackAniCnt++;
+		if (_attackAniCnt > 6)
 		{
-			_attackAniCount = 0;
+			_attackAniCnt = 0;
 			_attack = false;
 		}
 	}
 
+	if (_spawn == true)
+	{
+		_spawnCnt++;
+		if (_spawnCnt > 10)
+		{
+			_spawnCnt = 0;
+			_spawn = false;
+		}
+	}
+
+
 	if (_hit == true)
 	{
-		_hitAniCount++;
-		if (_hitAniCount > 6)
+		_hitAniCnt++;
+		if (_hitAniCnt > 6)
 		{
-			_hitAniCount = 0;
+			_hitAniCnt = 0;
 			_hit = false;
 		}
 	}
@@ -127,19 +147,37 @@ void Monster::Init(int x,int y)
 	_x = x;
 	_y = y;
 	_hp = 1000;
+	_spawn = true;
+	_hitAniCnt = 0;
+	_spawnCnt = 0;
 }
 
 void Monster::Draw(HDC hdc, int aniCount)
 {
 	int anicount = aniCount % 7;
 	_bossImg.Draw(hdc, _x, _y, _width, _height, 170 * anicount, 0, 174, 174);
+		
+	int bar = (1000 - _hp) * 60 / 1000;
+
+	if (60 - bar > 0)
+	{
+		_hpBar.Draw(hdc, _x, _y - _height / 3, 60, 15, 0, 0, 901, 241);
+		_hpfill.Draw(hdc, _x, _y - _height / 3, 60 - bar, 15, 0, 0, 901, 241);
+	}
+
+
 	if (_hit == true)
 	{
-		_bossHitImg.Draw(hdc, _x, _y, _width, _height, 512 * _hitAniCount, 0, 512, 512);
+		_bossHitImg.Draw(hdc, _x, _y, _width, _height, 512 * _hitAniCnt, 0, 512, 512);
 	}
 
 	if (_attack == true)
 	{
-		_bossAttackImg.Draw(hdc, _x, _y, _width, _height, 517 * _attackAniCount, 0, 517, 328);
+		_bossAttackImg.Draw(hdc, _x, _y, _width, _height, 517 * _attackAniCnt, 0, 517, 328);
+	}
+
+	if (_spawn == true)
+	{
+		_spawnAni.Draw(hdc, 49 * 20, 49 * 13, _width+20, _height + 20, 341 * _spawnCnt, 0, 341, 277);
 	}
 }

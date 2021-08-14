@@ -83,6 +83,9 @@
     <ClInclude Include="MonsterAttack.h">
       <Filter>소스 파일\DynamicObject</Filter>
     </ClInclude>
+    <ClInclude Include="EndingScene.h">
+      <Filter>소스 파일\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameClient.cpp">
@@ -132,6 +135,9 @@
     </ClCompile>
     <ClCompile Include="MonsterAttack.cpp">
       <Filter>소스 파일\DynamicObject</Filter>
+    </ClCompile>
+    <ClCompile Include="EndingScene.cpp">
+      <Filter>소스 파일\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

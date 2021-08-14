@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="Arrow.h" />
     <ClInclude Include="AStar.h" />
+    <ClInclude Include="EndingScene.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameClient.h" />
@@ -178,6 +179,7 @@
   <ItemGroup>
     <ClCompile Include="Arrow.cpp" />
     <ClCompile Include="AStar.cpp" />
+    <ClCompile Include="EndingScene.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="GameClient.cpp" />
     <ClCompile Include="House.cpp" />
