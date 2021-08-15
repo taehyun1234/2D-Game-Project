@@ -20,18 +20,18 @@ AStar::Node::Node(int _x, int _y, Node* _pParent, Coordinate _EndPoint)
 		G = 0;
 	}
 	else if ( // 십자 방향인 경우
-		(pParent->point.x == point.x - 1 && pParent->point.y == point.y) || // 부모가 '상'방향에 있거나
-		(pParent->point.x == point.x + 1 && pParent->point.y == point.y) || // 부모가 '하'방향에 있거나
-		(pParent->point.x == point.x && pParent->point.y == point.y - 1) || // 부모가 '좌'방향에 있거나
-		(pParent->point.x == point.x && pParent->point.y == point.y + 1)) // 부모가 '우'방향에 있으면		
+		(pParent->point.x == point.x - 1 && pParent->point.y == point.y) || // 부모가 '좌'방향에 있거나
+		(pParent->point.x == point.x + 1 && pParent->point.y == point.y) || // 부모가 '우'방향에 있거나
+		(pParent->point.x == point.x && pParent->point.y == point.y - 1) || // 부모가 '상'방향에 있거나
+		(pParent->point.x == point.x && pParent->point.y == point.y + 1)) // 부모가 '하'방향에 있으면		
 	{
 		G = pParent->G + 10;
 	}
 	else if ( // 대각선 방향인 경우
 		(pParent->point.x == point.x - 1 && pParent->point.y == point.y - 1) || // 부모가 '좌상'방향에 있거나
-		(pParent->point.x == point.x - 1 && pParent->point.y == point.y + 1) || // 부모가 '우상'방향에 있거나
-		(pParent->point.x == point.x + 1 && pParent->point.y == point.y - 1) || // 부모가 '좌하'방향에 있거나
-		(pParent->point.x == point.x + 1 && pParent->point.y == point.y + 1)) // 부모가 '우하'방향에 있으면
+		(pParent->point.x == point.x - 1 && pParent->point.y == point.y + 1) || // 부모가 '좌상'방향에 있거나
+		(pParent->point.x == point.x + 1 && pParent->point.y == point.y - 1) || // 부모가 '우하'방향에 있거나
+		(pParent->point.x == point.x + 1 && pParent->point.y == point.y + 1)) // 부모가 '우상'방향에 있으면
 	{
 		G = pParent->G + 14;
 	}
@@ -81,7 +81,8 @@ list<Coordinate*> AStar::FindPath(int Navi[MAP_WIDTH][MAP_HEIGHT], Coordinate St
 		for (SNode = *iter; SNode->pParent != NULL; SNode = SNode->pParent)  // 부모가 NULL일 때까지 path에 경로 저장
 		{
 			_path.push_back(new Coordinate(SNode->point.x, SNode->point.y));
-		}	_path.push_back(new Coordinate(SNode->point.x, SNode->point.y)); // 부모가 NULL인 경우의 path까지 저장(출발 지점)
+		}	
+		_path.push_back(new Coordinate(SNode->point.x, SNode->point.y)); // 부모가 NULL인 경우의 path까지 저장(출발 지점)
 
 		_path.reverse(); // 목적지점으부터 역순으로 입력했으므로 다시 역순으로 뒤집어 출발지점이 첫 번째가 되도록 함.
 
@@ -132,7 +133,6 @@ void AStar::ExploreNode(int map[MAP_WIDTH][MAP_HEIGHT], Node* SNode, list<Node*>
 				(*iter)->pParent = SNode; // 현재 노드를 부모로 바꿈
 			}
 		}
-
 		// 닫힌 노드에 있는 경우
 		else if (CloseNode->end() != FindCoordNode(point.x, point.y, CloseNode))
 		{
@@ -145,6 +145,8 @@ void AStar::ExploreNode(int map[MAP_WIDTH][MAP_HEIGHT], Node* SNode, list<Node*>
 			OpenNode->push_back(new Node(point.x, point.y, SNode, EndPoint));
 		}
 	}
+	// 하나만 보면 될듯 위에꺼 상하좌우, 대각선 모두 유사함.
+#pragma region repeat
 	// '하' 방향 탐색
 	point.x = SNode->point.x;	point.y = SNode->point.y + 1;
 	if (SNode->point.y < (MAP_HEIGHT - 1) && map[point.x][point.y] != CLOSE) // '하' 방향에 맵이 존재하고 장애물이 없을 경우
@@ -342,6 +344,7 @@ void AStar::ExploreNode(int map[MAP_WIDTH][MAP_HEIGHT], Node* SNode, list<Node*>
 			OpenNode->push_back(new Node(point.x, point.y, SNode, EndPoint));
 		}
 	}
+#pragma endregion
 }
 
 list<AStar::Node*>::iterator AStar::FindNextNode(list<AStar::Node*>* pOpenNode) // 오픈노드 중 F값이 제일 작은 노드 찾아서 반환

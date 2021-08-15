@@ -7,11 +7,11 @@ public:
 	MaptoolScene();
 	virtual ~MaptoolScene();
 
-	void					Init(HWND hWnd);
-	SCENE				Update(HWND hWnd);
-	void					Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lParam);
-	void					Draw(HWND hWnd, HDC hdc);
-	void					ResetScene();
+	virtual void			Init(HWND hWnd) override;
+	virtual SCENE		Update(HWND hWnd) override;
+	virtual void			Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lParam) override;
+	virtual void			Draw(HWND hWnd, HDC hdc) override;
+	virtual void			ResetScene() override;
 	void					SaveData();
 
 private:

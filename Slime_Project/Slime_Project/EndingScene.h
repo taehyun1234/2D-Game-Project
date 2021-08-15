@@ -7,11 +7,11 @@ public:
 	EndingScene();
 	virtual ~EndingScene();
 
-	void Init(HWND hWnd);
-	SCENE Update(HWND hWnd);
-	void Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lParam);
-	void Draw(HWND hWnd, HDC hdc);
-	void ResetScene();
+	virtual void Init(HWND hWnd) override;
+	virtual SCENE Update(HWND hWnd) override;
+	virtual void Input(HWND hWnd, UINT keyMessage, WPARAM wParam, LPARAM lParam) override;
+	virtual void Draw(HWND hWnd, HDC hdc) override;
+	virtual void ResetScene() override;
 private:
 	CImage				_img_Title;
 	unique_ptr<UI>	_Restart_UI;

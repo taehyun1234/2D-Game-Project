@@ -38,9 +38,6 @@
     <ClInclude Include="Slime_Project.h">
       <Filter>소스 파일\System</Filter>
     </ClInclude>
-    <ClInclude Include="GameClient.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>소스 파일\System</Filter>
     </ClInclude>
@@ -86,11 +83,11 @@
     <ClInclude Include="EndingScene.h">
       <Filter>소스 파일\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="GameClient.h">
+      <Filter>소스 파일\System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameClient.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>소스 파일\System</Filter>
     </ClCompile>
@@ -138,6 +135,9 @@
     </ClCompile>
     <ClCompile Include="EndingScene.cpp">
       <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameClient.cpp">
+      <Filter>소스 파일\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -48,9 +48,13 @@ public: // 내부 클래스
 	   
 private: // 내부 함수
 	list<Coordinate*> FindPath(int map[MAP_WIDTH][MAP_HEIGHT], Coordinate StartPoint, Coordinate EndPoint);
-	list<Node*>::iterator FindNextNode(list<Node*>* pOpenNode); // 오픈노드 중 F값이 제일 작은 노드 찾아서 반환
-	list<Node*>::iterator FindCoordNode(int x, int y, list<Node*>* NodeList); // 노드리스트에서 x,y 좌표의 노드를 찾아서 주소를 반환. 없으면 end()반환.
-	void ExploreNode(int map[MAP_WIDTH][MAP_HEIGHT], Node* SNode, list<Node*>* OpenNode, list<Node*>* CloseNode, Coordinate EndPoint); // 8방향 노드를 탐색하고 열린 노드에 추가 및 부모 변경을 실행함
+	// 실질적 길찾기
+	list<Node*>::iterator FindNextNode(list<Node*>* pOpenNode); 
+	// 오픈노드 중 F값이 제일 작은 노드 찾아서 반환
+	list<Node*>::iterator FindCoordNode(int x, int y, list<Node*>* NodeList); 
+	// 노드리스트에서 x,y 좌표의 노드를 찾아서 주소를 반환. 없으면 end()반환.
+	void ExploreNode(int map[MAP_WIDTH][MAP_HEIGHT], Node* SNode, list<Node*>* OpenNode, list<Node*>* CloseNode, Coordinate EndPoint);
+	// 8방향 노드를 탐색하고 열린 노드에 추가 및 부모 변경을 실행함
 
 public:
 	list<Coordinate*> ReturnPath(int map[MAP_WIDTH][MAP_HEIGHT], int startX, int startY, int endX,int endY);

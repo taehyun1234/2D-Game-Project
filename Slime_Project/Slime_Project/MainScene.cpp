@@ -190,7 +190,7 @@ SCENE MainScene::Update(HWND hWnd)
 			}
 		}
 
-		if ((*it)->GetHP() < 0)
+		if ((*it)->GetHP() <= 0)
 		{
 			_monsterList.erase(it++);
 			continue;
@@ -314,10 +314,10 @@ void MainScene::DrawMap(HDC hdc)
 		}
 	}
 	
-	//for (auto p : _coordiList)
-	//{
-	//	Rectangle(hdc, p->x * _tileSizeX, p->y * _tileSizeY, p->x * _tileSizeX + _tileSizeX, p->y * _tileSizeY + _tileSizeY);
-	//}
+	for (auto p : _coordiList)
+	{
+		Rectangle(hdc, p->x * _tileSizeX, p->y * _tileSizeY, p->x * _tileSizeX + _tileSizeX, p->y * _tileSizeY + _tileSizeY);
+	}
 
 }
 
